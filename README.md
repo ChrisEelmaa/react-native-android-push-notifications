@@ -9,22 +9,44 @@
 
 `$ react-native link react-native-android-push-notifications`
 
-### Manual installation
+### Further set up
 
-#### Android
+In order to use android push notifications (FCM) it is necessary
+to configure Firebase dependencies.
 
-1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNAndroidPushNotificationsPackage;` to the imports at the top of the file
-  - Add `new RNAndroidPushNotificationsPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':react-native-android-push-notifications'
-  	project(':react-native-android-push-notifications').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-android-push-notifications/android')
-  	```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-      compile project(':react-native-android-push-notifications')
-  	```
+1) Create firebase project in google + get google-services.json file, and place it in the "android/app" folder.
+
+2) My ext settings in android/build.gradle
+
+ext {
+		buildToolsVersion = "28.0.2"
+		minSdkVersion = 16
+		compileSdkVersion = 28
+		targetSdkVersion = 27
+		supportLibVersion = "26.1.0"
+		googlePlayServicesVersion = "15.0.0"
+		firebaseVersion = "15.0.2"
+}
+
+3) My dependencies in android/build.gradle
+
+dependencies {
+		classpath 'com.android.tools.build:gradle:3.2.1'
+		classpath 'com.google.gms:google-services:4.0.2'
+}
+
+
+4) Import following projs in android/app/build.gradle (under dependencies:
+
+implementation "com.google.android.gms:play-services-base:${rootProject.ext.googlePlayServicesVersion}"
+
+implementation "com.google.firebase:firebase-core:${rootProject.ext.firebaseVersion}"
+
+
+5) Add apply to the end of the file in android/app/build.gradle
+
+apply plugin: 'com.google.gms.google-services'
+
 
 ## Usage
 ```javascript
@@ -45,4 +67,4 @@ RNAndroidPushNotifications.init(
 # Disclaimer
 
 This package is used in production and works! Note that this package
-is extremely simple and limited. There is no way to configure anything, except the sender ID.
+is extremely simple and limited. There is no way to configure anything.
