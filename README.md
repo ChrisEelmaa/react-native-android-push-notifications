@@ -54,13 +54,20 @@ import RNAndroidPushNotifications from 'react-native-android-push-notifications'
 
 RNAndroidPushNotifications.init(
 		options,
-		(res) => {
-				resolve(token);
+		(token) => {
+				alert("token" + token)
 		},
 		(err) => {
-				LogService.error('errpushnot', err);
-				resolve(null);
+				alert(err)
 		});
+
+
+// In order to "invalidate" a token
+// This can happen when user logs out from your app.
+RNAndroidPushNotifications.unregister(
+		() => {},
+		() => {}
+);
 
 ```
   
