@@ -30,56 +30,15 @@
 ```javascript
 import RNAndroidPushNotifications from 'react-native-android-push-notifications';
 
-actual example of usage:
-
-async getToken () {
-		try {
-
-				const isEmulator = DeviceInfo.isEmulator();
-				if (isEmulator) {
-						return null;
-				}
-
-				if (Platform.OS === 'android') {
-
-						const options = {
-								senderId: Config.SENDER_ID
-						};
-
-						return new Promise((resolve, reject) => {
-								RNAndroidPushNotifications.init(
-										options,
-										(res) => {
-												resolve(token);
-										},
-										(err) => {
-												LogService.error('errpushnot', err);
-												resolve(null);
-										});
-						});
-				}
-
-				if (Platform.OS === 'ios') {
-
-						return new Promise((resolve, reject) => {
-								PushNotificationIOS.addEventListener('registrationError', (message, key) => {
-										LogService.error(message);
-										resolve(null);
-								});
-								PushNotificationIOS.addEventListener('register', (token) => {
-										resolve(token);
-								});
-
-								PushNotificationIOS.requestPermissions();
-						});
-				}
-
-		} catch (e) {
-				LogService.error('getToken exception', e);
-		}
-
-		return null;
-}
+RNAndroidPushNotifications.init(
+		options,
+		(res) => {
+				resolve(token);
+		},
+		(err) => {
+				LogService.error('errpushnot', err);
+				resolve(null);
+		});
 
 ```
   
